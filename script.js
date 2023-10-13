@@ -62,7 +62,10 @@ function startQuiz(){
     showQuestion();
 }
 
+
+
 function showQuestion(){
+    resetState();
     let currentQuestion = questions[currentQuestionIndex];
     let questionNum = currentQuestionIndex + 1;
     questionElement.innerHTML = questionNum + ':' + currentQuestion.question;
@@ -72,8 +75,55 @@ function showQuestion(){
         button.innerHTML = answer.text          //adds the text from the answer text
         button.classList.add("btn");                            //gives it the classname btn
         answerButton.appendChild(button);
+        if(answer.correct){
+            button.dataset.correct = answer.correct;          //adds the true or false from our answers array to the button dataset
+        }
+        button.addEventListener("click", selectAnswer);
     })
 }
 
+function selectAnswer(e){
+    const selectedButton = e.target;
+    const isCorrect = selectedButton.dataset.correct ==="true";
+    if(isCorrect){
+        selectedButton.classList.add("correct");
+        score += 1;
+    }else{
+        selectedButton.classList.add("incorrect");
+    }
+    Array.from(answerButton.children).forEach(button => {      //for each button it will check the dataset, if true it will add the class name correct, then it will disable the button, then it will display the next button
+        if(button.dataset.correct ==="true"){
+            button.classList.add("correct");
+        }
+        button.disabled = true;
+    });
+    nextButton.style.display = "block";        //should display the next button
+}
+
+
+nextButton.addEventListener("click", ()=>{
+    if(currentQuestionIndex < questions.length){
+        currentQuestionIndex ++
+        if(currentQuestionIndex < questions.length){
+            showQuestion();  
+        }else{
+            resetState();
+            questionElement.innerHTML = "Your Score is: " + score + " out of " + questions.length + ".";
+            nextButton.innerHTML = "Restart Quiz?";
+            nextButton.style.display = "block";
+        }
+        
+    }else{
+        startQuiz()
+    }
+    
+})
+
+function resetState(){
+    nextButton.style.display = "none";
+    while(answerButton.firstChild){                             //goes through the answer buttons deleting them
+        answerButton.removeChild(answerButton.firstChild);              
+    }
+}
 
 startQuiz();

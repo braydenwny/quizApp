@@ -8,7 +8,7 @@
 .contents{
     width: 100%;
     min-height: 100vh;
-    background: linear-gradient(135deg, rgb(175, 0, 0), rgb(224, 53, 53));
+    background: linear-gradient(135deg, rgb(73, 39, 39), black);
     padding: 10px;
 }
 
@@ -30,10 +30,9 @@
 }
 
 .quiz h2{
-    display: flex;
     text-align: center;
     margin-bottom: 20px;
-    margin-left: 165px;
+
 }
 
 .options{
@@ -60,8 +59,12 @@
     font-weight: 500;
 }
 
-.btn:hover{
+.btn:hover:not([disabled]){
     background-color: rgb(219, 197, 197);
+}
+
+.btn:disabled{
+    cursor:no-drop;
 }
 
 #nextButton{
@@ -80,4 +83,15 @@
 
 #nextButton:hover{
     background-color: rgb(219, 197, 197);
+}
+
+
+.correct{
+    background-color: rgb(10, 150, 10);
+    color: black;
+}
+
+.incorrect{
+    background-color: rgb(233, 72, 72);
+    color: black;
 }
